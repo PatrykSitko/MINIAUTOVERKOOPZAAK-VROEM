@@ -11,7 +11,7 @@ public abstract class OrderDao implements DaoDefaults<Integer, Order> {
     }
 
     public Order get(Integer primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Order.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Order orderToUpdate, Order updatedOrder) {

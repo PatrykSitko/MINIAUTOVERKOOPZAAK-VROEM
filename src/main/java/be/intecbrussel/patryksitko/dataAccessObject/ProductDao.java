@@ -11,7 +11,7 @@ public abstract class ProductDao implements DaoDefaults<String, Product> {
     }
 
     public Product get(String primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Product.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Product productToUpdate, Product updatedProduct) {

@@ -11,7 +11,7 @@ public abstract class CustomerDao implements DaoDefaults<Integer, Customer> {
     }
 
     public Customer get(Integer primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Customer.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Customer customerToUpdate, Customer updatedCustomer) {

@@ -11,7 +11,7 @@ public abstract class PaymentDao implements DaoDefaults<String, Payment> {
     }
 
     public Payment get(String primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Payment.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Payment paymentToUpdate, Payment updatedPayment) {

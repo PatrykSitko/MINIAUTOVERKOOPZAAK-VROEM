@@ -11,7 +11,7 @@ public abstract class OfficeDao implements DaoDefaults<String, Office> {
     }
 
     public Office get(String primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Office.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Office officeToUpdate, Office updatedOffice) {

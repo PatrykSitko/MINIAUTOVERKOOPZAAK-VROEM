@@ -11,7 +11,7 @@ public abstract class OrderdetailDao implements DaoDefaults<Integer, Orderdetail
     }
 
     public Orderdetail get(Integer primaryKey) {
-        return this.get(primaryKey, PERSISTENCE_UNIT_NAME);
+        return this.get(primaryKey, Orderdetail.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Orderdetail orderDetailToUpdate, Orderdetail updatedOrderdetail) {
