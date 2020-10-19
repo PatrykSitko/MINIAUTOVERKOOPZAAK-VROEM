@@ -1,5 +1,7 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
+import java.util.List;
+
 import be.intecbrussel.patryksitko.model.Product;
 
 public abstract class ProductDao implements DaoDefaults<String, Product> {
@@ -12,6 +14,10 @@ public abstract class ProductDao implements DaoDefaults<String, Product> {
 
     public Product get(String primaryKey) {
         return this.get(primaryKey, Product.class, PERSISTENCE_UNIT_NAME);
+    }
+
+    public List<Product> getAll() {
+        return this.getAll(Product.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Product productToUpdate, Product updatedProduct) {

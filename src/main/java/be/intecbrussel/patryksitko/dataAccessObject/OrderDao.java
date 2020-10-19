@@ -1,5 +1,7 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
+import java.util.List;
+
 import be.intecbrussel.patryksitko.model.Order;
 
 public abstract class OrderDao implements DaoDefaults<Integer, Order> {
@@ -12,6 +14,10 @@ public abstract class OrderDao implements DaoDefaults<Integer, Order> {
 
     public Order get(Integer primaryKey) {
         return this.get(primaryKey, Order.class, PERSISTENCE_UNIT_NAME);
+    }
+
+    public List<Order> getAll() {
+        return this.getAll(Order.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Order orderToUpdate, Order updatedOrder) {

@@ -1,5 +1,7 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
+import java.util.List;
+
 import be.intecbrussel.patryksitko.model.Payment;
 
 public abstract class PaymentDao implements DaoDefaults<String, Payment> {
@@ -12,6 +14,10 @@ public abstract class PaymentDao implements DaoDefaults<String, Payment> {
 
     public Payment get(String primaryKey) {
         return this.get(primaryKey, Payment.class, PERSISTENCE_UNIT_NAME);
+    }
+
+    public List<Payment> getAll() {
+        return this.getAll(Payment.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Payment paymentToUpdate, Payment updatedPayment) {

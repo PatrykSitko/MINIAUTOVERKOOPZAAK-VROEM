@@ -1,5 +1,7 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
+import java.util.List;
+
 import be.intecbrussel.patryksitko.model.Office;
 
 public abstract class OfficeDao implements DaoDefaults<String, Office> {
@@ -12,6 +14,10 @@ public abstract class OfficeDao implements DaoDefaults<String, Office> {
 
     public Office get(String primaryKey) {
         return this.get(primaryKey, Office.class, PERSISTENCE_UNIT_NAME);
+    }
+
+    public List<Office> getAll() {
+        return this.getAll(Office.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Office officeToUpdate, Office updatedOffice) {
