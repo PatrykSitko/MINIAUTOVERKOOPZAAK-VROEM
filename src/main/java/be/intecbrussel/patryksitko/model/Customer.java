@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Customers")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer implements ModelDefaults<Integer, Customer> {
@@ -26,58 +26,58 @@ public class Customer implements ModelDefaults<Integer, Customer> {
     @Setter
     @NonNull
     @Column(name = "customerName", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer customerName;
+    private String customerName;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "contactLastName", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer contactLastName;
+    private String contactLastName;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "contactFirstName", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer contactFirstName;
+    private String contactFirstName;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "phone", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer phone;
+    private String phone;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "addressLine1", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer addressLine1;
+    private String addressLine1;
 
     @Getter
     @Setter
     @Column(name = "addressLine2", nullable = true, length = 50, columnDefinition = "VARCHAR")
-    private Integer addressLine2;
+    private String addressLine2;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "city", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer city;
+    private String city;
 
     @Getter
     @Setter
     @Column(name = "state", nullable = true, length = 50, columnDefinition = "VARCHAR")
-    private Integer state;
+    private String state;
 
     @Getter
     @Setter
     @Column(name = "postalCode", nullable = true, length = 15, columnDefinition = "VARCHAR")
-    private Integer postalCode;
+    private String postalCode;
 
     @Getter
     @Setter
     @NonNull
     @Column(name = "country", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer country;
+    private String country;
 
     @Getter
     @Setter
@@ -87,7 +87,7 @@ public class Customer implements ModelDefaults<Integer, Customer> {
     @Getter
     @Setter
     @Column(name = "creditLimit", nullable = true, precision = 10, scale = 2, columnDefinition = "DECIMAL")
-    private Integer creditLimit;
+    private Double creditLimit;
 
     @Override
     public Integer getPrimaryKey() {
@@ -210,7 +210,7 @@ public class Customer implements ModelDefaults<Integer, Customer> {
 
     @Override
     public String toString() {
-        return "Customers [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city
+        return "Customer [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city
                 + ", contactFirstName=" + contactFirstName + ", contactLastName=" + contactLastName + ", country="
                 + country + ", creditLimit=" + creditLimit + ", customerName=" + customerName + ", customerNumber="
                 + customerNumber + ", phone=" + phone + ", postalCode=" + postalCode + ", salesRepEmployeeNumber="

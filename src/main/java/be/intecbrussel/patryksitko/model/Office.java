@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Offices")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Office implements ModelDefaults<String, Office> {

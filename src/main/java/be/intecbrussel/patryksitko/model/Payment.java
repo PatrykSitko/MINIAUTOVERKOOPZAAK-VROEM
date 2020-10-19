@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Payments")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment implements ModelDefaults<String, Payment> {

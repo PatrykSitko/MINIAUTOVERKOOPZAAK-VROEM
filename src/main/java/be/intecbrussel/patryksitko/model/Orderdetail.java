@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 
 import lombok.*;
 
-@Entity
+@Entity(name = "Orderdetails")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {

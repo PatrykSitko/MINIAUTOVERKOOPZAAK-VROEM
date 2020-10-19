@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Employees")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee implements ModelDefaults<Integer, Employee> {

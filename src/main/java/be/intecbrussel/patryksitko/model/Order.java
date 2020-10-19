@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Orders")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order implements ModelDefaults<Integer, Order> {
