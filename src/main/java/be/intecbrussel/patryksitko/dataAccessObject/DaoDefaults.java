@@ -2,6 +2,7 @@ package be.intecbrussel.patryksitko.dataAccessObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,7 +62,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
     }
 
     // read all
-    default List<OBJ> getAll(Class<OBJ> obj, String persistenceUnitName) {
+    default List<OBJ> getAll(Class<OBJ> obj, String persistenceUnitName, Optional<Integer> limit) {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
         List<OBJ> productline = null;
@@ -70,7 +71,8 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            productline = (List<OBJ>) entityManager.createQuery("SELECT * FROM " + obj.getSimpleName(),
+            productline = (List<OBJ>) entityManager.createQuery(
+                    "SELECT * FROM " + obj.getSimpleName() + (limit.isPresent() ? " limit " + limit.get() : ""),
                     Class.forName(obj.getName()).getDeclaredConstructor().newInstance().getClass());
             entityTransaction.commit();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
