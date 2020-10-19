@@ -1,6 +1,7 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
 import java.util.List;
+import java.util.Optional;
 
 import be.intecbrussel.patryksitko.model.Customer;
 
@@ -16,8 +17,8 @@ public abstract class CustomerDao implements DaoDefaults<Integer, Customer> {
         return this.get(primaryKey, Customer.class, PERSISTENCE_UNIT_NAME);
     }
 
-    public List<Customer> getAll() {
-        return this.getAll(Customer.class, PERSISTENCE_UNIT_NAME);
+    public List<Customer> getAll(Optional<Integer> limit) {
+        return this.getAll(limit, Customer.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Customer customerToUpdate, Customer updatedCustomer) {

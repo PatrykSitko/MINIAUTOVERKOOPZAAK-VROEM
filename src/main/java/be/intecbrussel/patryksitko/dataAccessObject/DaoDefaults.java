@@ -62,7 +62,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
     }
 
     // read all
-    default List<OBJ> getAll(Class<OBJ> obj, String persistenceUnitName, Optional<Integer> limit) {
+    default List<OBJ> getAll(Optional<Integer> limit, Class<OBJ> obj, String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
         List<OBJ> productline = null;
