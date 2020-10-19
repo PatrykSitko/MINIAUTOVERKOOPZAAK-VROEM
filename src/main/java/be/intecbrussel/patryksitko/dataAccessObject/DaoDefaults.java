@@ -1,5 +1,6 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,9 +43,38 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            productline = (OBJ) entityManager.find(Class.forName(obj.getName()).newInstance().getClass(), primaryKey);
+            productline = (OBJ) entityManager
+                    .find(Class.forName(obj.getName()).getDeclaredConstructor().newInstance().getClass(), primaryKey);
             entityTransaction.commit();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
+            if (entityManagerFactory != null) {
+                entityManagerFactory.close();
+            }
+        }
+        return productline;
+    }
+
+    // read all
+    default List<OBJ> getAll(Class<OBJ> obj, String persistenceUnitName) {
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        List<OBJ> productline = null;
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManager = entityManagerFactory.createEntityManager();
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            productline = (List<OBJ>) entityManager.createQuery("SELECT * FROM " + obj.getSimpleName(),
+                    Class.forName(obj.getName()).getDeclaredConstructor().newInstance().getClass());
+            entityTransaction.commit();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             e.printStackTrace();
         } finally {
             if (entityManager != null) {
