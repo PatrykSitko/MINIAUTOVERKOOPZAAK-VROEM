@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
@@ -59,7 +60,8 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
     }
 
     // read all
-    default List<OBJ> getAll(Optional<Integer> limit, Class<OBJ> obj, String persistenceUnitName) {
+    default List<OBJ> getAll(Optional<Integer> firstResult, Optional<Integer> maxResults, Class<OBJ> obj,
+            String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
         List<OBJ> productline = null;
@@ -70,9 +72,14 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityTransaction.begin();
             Session session = entityManager.unwrap(Session.class);
             String tableName = session.getMetamodel().entity(obj).getName();
-            String queryResultsLimiter = (limit.isPresent() ? " limit " + limit.get() : "");
-            productline = (List<OBJ>) entityManager.createQuery("SELECT * FROM " + tableName + queryResultsLimiter, obj)
-                    .getResultList();
+            Query query = entityManager.createQuery("FROM " + tableName, obj);
+            if (firstResult.isPresent()) {
+                query.setFirstResult(firstResult.get());
+            }
+            if (maxResults.isPresent()) {
+                query.setMaxResults(maxResults.get());
+            }
+            productline = query.getResultList();
             entityTransaction.commit();
         } finally {
             if (entityManager != null) {
