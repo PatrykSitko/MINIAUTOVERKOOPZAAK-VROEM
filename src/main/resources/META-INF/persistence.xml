@@ -10,9 +10,10 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/classicmodels?setTimezone=UTC;serverTimezone=UTC"/>
             <property name="javax.persistence.jdbc.user" value="application"/>
             <property name="javax.persistence.jdbc.password" value="password"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <!-- used only when you want your app to create a database <property name="javax.persistence.schema-generation.database.action" value="create"/> -->
+            <!-- used only when you want your app to recreate a database <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/> -->
             <!-- Hibernate specific -->
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
         </properties>
     </persistence-unit>
