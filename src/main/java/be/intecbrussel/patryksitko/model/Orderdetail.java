@@ -2,9 +2,11 @@ package be.intecbrussel.patryksitko.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.*;
 
@@ -23,9 +25,9 @@ public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "productCode", nullable = false, length = 15, columnDefinition = "VARCHAR")
-    @JoinColumn(name = "productCode", foreignKey = @ForeignKey(name = "productCode"))
-    private Integer productCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productCode", nullable = false, columnDefinition = "VARCHAR")
+    private Product product;
 
     @Getter
     @Setter
@@ -53,7 +55,7 @@ public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {
     @Override
     public void update(Orderdetail updated) {
         this.setOrderLineNumber(updated.getOrderLineNumber());
-        this.setProductCode(updated.getProductCode());
+        this.setProduct(updated.getProduct());
         this.setQuantityOrdered(updated.getQuantityOrdered());
         this.setPriceEach(updated.getPriceEach());
         this.setOrderLineNumber(updated.getOrderLineNumber());
@@ -66,7 +68,7 @@ public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {
         result = prime * result + ((orderLineNumber == null) ? 0 : orderLineNumber.hashCode());
         result = prime * result + ((orderNumber == null) ? 0 : orderNumber.hashCode());
         result = prime * result + ((priceEach == null) ? 0 : priceEach.hashCode());
-        result = prime * result + ((productCode == null) ? 0 : productCode.hashCode());
+        result = prime * result + ((product == null) ? 0 : product.hashCode());
         result = prime * result + ((quantityOrdered == null) ? 0 : quantityOrdered.hashCode());
         return result;
     }
@@ -95,10 +97,10 @@ public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {
                 return false;
         } else if (!priceEach.equals(other.priceEach))
             return false;
-        if (productCode == null) {
-            if (other.productCode != null)
+        if (product == null) {
+            if (other.product != null)
                 return false;
-        } else if (!productCode.equals(other.productCode))
+        } else if (!product.equals(other.product))
             return false;
         if (quantityOrdered == null) {
             if (other.quantityOrdered != null)
@@ -110,7 +112,7 @@ public class Orderdetail implements ModelDefaults<Integer, Orderdetail> {
 
     @Override
     public String toString() {
-        return "Orderdetails [orderLineNumber=" + orderLineNumber + ", orderNumber=" + orderNumber + ", priceEach="
-                + priceEach + ", productCode=" + productCode + ", quantityOrdered=" + quantityOrdered + "]";
+        return "Orderdetail [orderLineNumber=" + orderLineNumber + ", orderNumber=" + orderNumber + ", priceEach="
+                + priceEach + ", product=" + product + ", quantityOrdered=" + quantityOrdered + "]";
     }
 }

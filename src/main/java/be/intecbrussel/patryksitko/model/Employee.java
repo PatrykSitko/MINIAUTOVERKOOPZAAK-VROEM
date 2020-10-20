@@ -2,7 +2,11 @@ package be.intecbrussel.patryksitko.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,13 +53,15 @@ public class Employee implements ModelDefaults<Integer, Employee> {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "officeCode", nullable = false, length = 10, columnDefinition = "VARCHAR")
-    private String officeCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "officeCode", nullable = false, columnDefinition = "VARCHAR", foreignKey = @ForeignKey(name = "officeCode"))
+    private Office office;
 
     @Getter
     @Setter
-    @Column(name = "reportsTo", nullable = true, columnDefinition = "INT")
-    private Integer reportsTo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reportsTo", nullable = true, columnDefinition = "INT", foreignKey = @ForeignKey(name = "employeeNumber"))
+    private Employee reportsTo;
 
     @Getter
     @Setter
@@ -75,7 +81,7 @@ public class Employee implements ModelDefaults<Integer, Employee> {
         this.setFirstName(updated.getFirstName());
         this.setExtension(updated.getExtension());
         this.setEmail(updated.getEmail());
-        this.setOfficeCode(updated.getOfficeCode());
+        this.setOffice(updated.getOffice());
         this.setReportsTo(updated.getReportsTo());
         this.setJobTitle(updated.getJobTitle());
     }
@@ -90,7 +96,7 @@ public class Employee implements ModelDefaults<Integer, Employee> {
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((jobTitle == null) ? 0 : jobTitle.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((officeCode == null) ? 0 : officeCode.hashCode());
+        result = prime * result + ((office == null) ? 0 : office.hashCode());
         result = prime * result + ((reportsTo == null) ? 0 : reportsTo.hashCode());
         return result;
     }
@@ -134,10 +140,10 @@ public class Employee implements ModelDefaults<Integer, Employee> {
                 return false;
         } else if (!lastName.equals(other.lastName))
             return false;
-        if (officeCode == null) {
-            if (other.officeCode != null)
+        if (office == null) {
+            if (other.office != null)
                 return false;
-        } else if (!officeCode.equals(other.officeCode))
+        } else if (!office.equals(other.office))
             return false;
         if (reportsTo == null) {
             if (other.reportsTo != null)
@@ -149,8 +155,8 @@ public class Employee implements ModelDefaults<Integer, Employee> {
 
     @Override
     public String toString() {
-        return "Employees [email=" + email + ", employeeNumber=" + employeeNumber + ", extension=" + extension
-                + ", firstName=" + firstName + ", jobTitle=" + jobTitle + ", lastName=" + lastName + ", officeCode="
-                + officeCode + ", reportsTo=" + reportsTo + "]";
+        return "Employee [email=" + email + ", employeeNumber=" + employeeNumber + ", extension=" + extension
+                + ", firstName=" + firstName + ", jobTitle=" + jobTitle + ", lastName=" + lastName + ", office="
+                + office + ", reportsTo=" + reportsTo + "]";
     }
 }

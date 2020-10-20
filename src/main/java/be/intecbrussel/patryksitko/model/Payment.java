@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 
@@ -19,12 +21,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Payment implements ModelDefaults<String, Payment> {
 
+    @Id
     @Getter
     @Setter
     @NonNull
-    @Column(name = "customerNumber", columnDefinition = "INT")
-    @JoinColumn(name = "customerNumber", nullable = false, foreignKey = @ForeignKey(name = "customerNumber"))
-    private Integer customerNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customerNumber", nullable = false, columnDefinition = "INT")
+    private Customer customer;
 
     @Id
     @Getter
@@ -52,7 +55,7 @@ public class Payment implements ModelDefaults<String, Payment> {
 
     @Override
     public void update(Payment updated) {
-        this.setCustomerNumber(updated.getCustomerNumber());
+        this.setCustomer(updated.getCustomer());
         this.setCheckNumber(updated.getCheckNumber());
         this.setPaymentDate(updated.getPaymentDate());
         this.setAmount(updated.getAmount());
@@ -64,7 +67,7 @@ public class Payment implements ModelDefaults<String, Payment> {
         int result = 1;
         result = prime * result + ((amount == null) ? 0 : amount.hashCode());
         result = prime * result + ((checkNumber == null) ? 0 : checkNumber.hashCode());
-        result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
+        result = prime * result + ((customer == null) ? 0 : customer.hashCode());
         result = prime * result + ((paymentDate == null) ? 0 : paymentDate.hashCode());
         return result;
     }
@@ -88,10 +91,10 @@ public class Payment implements ModelDefaults<String, Payment> {
                 return false;
         } else if (!checkNumber.equals(other.checkNumber))
             return false;
-        if (customerNumber == null) {
-            if (other.customerNumber != null)
+        if (customer == null) {
+            if (other.customer != null)
                 return false;
-        } else if (!customerNumber.equals(other.customerNumber))
+        } else if (!customer.equals(other.customer))
             return false;
         if (paymentDate == null) {
             if (other.paymentDate != null)
@@ -103,7 +106,7 @@ public class Payment implements ModelDefaults<String, Payment> {
 
     @Override
     public String toString() {
-        return "Payments [amount=" + amount + ", checkNumber=" + checkNumber + ", customerNumber=" + customerNumber
+        return "Payment [amount=" + amount + ", checkNumber=" + checkNumber + ", customer=" + customer
                 + ", paymentDate=" + paymentDate + "]";
     }
 }
