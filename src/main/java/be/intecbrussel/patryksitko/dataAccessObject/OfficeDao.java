@@ -17,8 +17,8 @@ public abstract class OfficeDao implements DaoDefaults<String, Office> {
         return this.get(primaryKey, Office.class, PERSISTENCE_UNIT_NAME);
     }
 
-    public List<Office> getAll(Optional<Integer> limit) {
-        return this.getAll(limit, Office.class, PERSISTENCE_UNIT_NAME);
+    public List<Office> getAll(Optional<Integer> firstResult, Optional<Integer> maxResults) {
+        return this.getAll(firstResult, maxResults, Office.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Office officeToUpdate, Office updatedOffice) {

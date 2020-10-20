@@ -17,8 +17,8 @@ public abstract class EmployeeDao implements DaoDefaults<Integer, Employee> {
         return this.get(primaryKey, Employee.class, PERSISTENCE_UNIT_NAME);
     }
 
-    public List<Employee> getAll(Optional<Integer> limit) {
-        return this.getAll(limit, Employee.class, PERSISTENCE_UNIT_NAME);
+    public List<Employee> getAll(Optional<Integer> firstResult, Optional<Integer> maxResults) {
+        return this.getAll(firstResult, maxResults, Employee.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Employee employeeToUpdate, Employee updatedEmployee) {

@@ -17,8 +17,8 @@ public abstract class OrderDao implements DaoDefaults<Integer, Order> {
         return this.get(primaryKey, Order.class, PERSISTENCE_UNIT_NAME);
     }
 
-    public List<Order> getAll(Optional<Integer> limit) {
-        return this.getAll(limit, Order.class, PERSISTENCE_UNIT_NAME);
+    public List<Order> getAll(Optional<Integer> firstResult, Optional<Integer> maxResults) {
+        return this.getAll(firstResult, maxResults, Order.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Order orderToUpdate, Order updatedOrder) {

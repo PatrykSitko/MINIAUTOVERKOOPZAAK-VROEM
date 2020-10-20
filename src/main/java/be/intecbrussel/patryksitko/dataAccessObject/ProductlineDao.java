@@ -17,8 +17,8 @@ public abstract class ProductlineDao implements DaoDefaults<String, Productline>
         return this.get(primaryKey, Productline.class, PERSISTENCE_UNIT_NAME);
     }
 
-    public List<Productline> getAll(Optional<Integer> limit) {
-        return this.getAll(limit, Productline.class, PERSISTENCE_UNIT_NAME);
+    public List<Productline> getAll(Optional<Integer> firstResult, Optional<Integer> maxResults) {
+        return this.getAll(firstResult, maxResults, Productline.class, PERSISTENCE_UNIT_NAME);
     }
 
     public void update(Productline productlineToUpdate, Productline updatedProductline) {
