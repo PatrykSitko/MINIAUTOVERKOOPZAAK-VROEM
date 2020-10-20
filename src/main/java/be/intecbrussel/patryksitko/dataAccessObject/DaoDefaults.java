@@ -1,6 +1,5 @@
 package be.intecbrussel.patryksitko.dataAccessObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import org.hibernate.Session;
 
 import be.intecbrussel.patryksitko.model.ModelDefaults;
 
@@ -44,12 +45,8 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            productline = (OBJ) entityManager
-                    .find(Class.forName(obj.getName()).getDeclaredConstructor().newInstance().getClass(), primaryKey);
+            productline = (OBJ) entityManager.find(obj, primaryKey);
             entityTransaction.commit();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -71,13 +68,12 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            productline = (List<OBJ>) entityManager.createQuery(
-                    "SELECT * FROM " + obj.getSimpleName() + (limit.isPresent() ? " limit " + limit.get() : ""),
-                    Class.forName(obj.getName()).getDeclaredConstructor().newInstance().getClass());
+            Session session = entityManager.unwrap(Session.class);
+            String tableName = session.getMetamodel().entity(obj).getName();
+            String queryResultsLimiter = (limit.isPresent() ? " limit " + limit.get() : "");
+            productline = (List<OBJ>) entityManager.createQuery("SELECT * FROM " + tableName + queryResultsLimiter, obj)
+                    .getResultList();
             entityTransaction.commit();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
