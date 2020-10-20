@@ -1,13 +1,15 @@
 package be.intecbrussel.patryksitko.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentId {
+public class PaymentId implements Serializable {
 
-    private Customer customer;
+    private transient Customer customer;
 
     private String checkNumber;
 
