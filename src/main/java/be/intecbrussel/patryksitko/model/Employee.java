@@ -67,7 +67,7 @@ public class Employee implements ModelDefaults<Integer, Employee> {
     @Setter
     @NonNull
     @Column(name = "jobTitle", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private Integer jobTitle;
+    private String jobTitle;
 
     @Override
     public Integer getPrimaryKey() {
