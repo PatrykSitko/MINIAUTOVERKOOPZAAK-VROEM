@@ -1,6 +1,6 @@
 package be.intecbrussel.patryksitko.model;
 
-import java.io.File;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +28,7 @@ public class Productline implements ModelDefaults<String, Productline> {
     @Setter
     @NonNull
     @Column(name = "image", nullable = false, columnDefinition = "MEDIUMBLOB")
-    private File image;
+    private Byte[] image;
 
     @Getter
     @Setter
@@ -60,7 +60,7 @@ public class Productline implements ModelDefaults<String, Productline> {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((htmlDescription == null) ? 0 : htmlDescription.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        result = prime * result + Arrays.hashCode(image);
         result = prime * result + ((productLine == null) ? 0 : productLine.hashCode());
         result = prime * result + ((textDescription == null) ? 0 : textDescription.hashCode());
         return result;
@@ -80,10 +80,7 @@ public class Productline implements ModelDefaults<String, Productline> {
                 return false;
         } else if (!htmlDescription.equals(other.htmlDescription))
             return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
+        if (!Arrays.equals(image, other.image))
             return false;
         if (productLine == null) {
             if (other.productLine != null)
@@ -100,7 +97,7 @@ public class Productline implements ModelDefaults<String, Productline> {
 
     @Override
     public String toString() {
-        return "Productlines [htmlDescription=" + htmlDescription + ", image=" + image + ", productLine=" + productLine
-                + ", textDescription=" + textDescription + "]";
+        return "Productline [htmlDescription=" + htmlDescription + ", productLine=" + productLine + ", textDescription="
+                + textDescription + "]";
     }
 }
