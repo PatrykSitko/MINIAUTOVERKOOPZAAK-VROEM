@@ -9,7 +9,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import be.intecbrussel.patryksitko.model.ModelDefaults;
@@ -45,10 +44,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
             entityManager = entityManagerFactory.createEntityManager();
-            EntityTransaction entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
             queryObject = (OBJ) entityManager.find(obj, primaryKey);
-            entityTransaction.commit();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -69,8 +65,6 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
             entityManager = entityManagerFactory.createEntityManager();
-            EntityTransaction entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
             Session session = entityManager.unwrap(Session.class);
             String tableName = session.getMetamodel().entity(obj).getName();
             Query query = entityManager.createQuery("FROM " + tableName, obj);
@@ -81,7 +75,6 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
                 query.setMaxResults(maxResults.get());
             }
             queryObject = query.getResultList();
-            entityTransaction.commit();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
