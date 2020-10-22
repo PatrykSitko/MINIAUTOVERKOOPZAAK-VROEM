@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import be.intecbrussel.patryksitko.model.ModelDefaults;
@@ -40,13 +41,13 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
     default OBJ get(PK primaryKey, Class<OBJ> obj, String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
-        OBJ productline = null;
+        OBJ queryObject = null;
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            productline = (OBJ) entityManager.find(obj, primaryKey);
+            queryObject = (OBJ) entityManager.find(obj, primaryKey);
             entityTransaction.commit();
         } finally {
             if (entityManager != null) {
@@ -56,7 +57,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
                 entityManagerFactory.close();
             }
         }
-        return productline;
+        return queryObject;
     }
 
     // read all
@@ -64,7 +65,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
-        List<OBJ> productline = null;
+        List<OBJ> queryObject = null;
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
             entityManager = entityManagerFactory.createEntityManager();
@@ -79,7 +80,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             if (maxResults.isPresent()) {
                 query.setMaxResults(maxResults.get());
             }
-            productline = query.getResultList();
+            queryObject = query.getResultList();
             entityTransaction.commit();
         } finally {
             if (entityManager != null) {
@@ -89,7 +90,7 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
                 entityManagerFactory.close();
             }
         }
-        return productline;
+        return queryObject;
     }
 
     // update
@@ -101,8 +102,8 @@ public interface DaoDefaults<PK, OBJ extends ModelDefaults<PK, OBJ>> {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            OBJ productline = (OBJ) entityManager.find(updatedTarget.getClass(), targetToUpdate.getPrimaryKey());
-            productline.update(updatedTarget);
+            OBJ queryObject = (OBJ) entityManager.find(updatedTarget.getClass(), targetToUpdate.getPrimaryKey());
+            queryObject.update(updatedTarget);
             entityTransaction.commit();
         } finally {
             if (entityManager != null) {
