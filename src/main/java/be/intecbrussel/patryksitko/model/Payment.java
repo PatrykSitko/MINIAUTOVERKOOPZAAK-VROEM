@@ -1,6 +1,6 @@
 package be.intecbrussel.patryksitko.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +41,7 @@ public class Payment implements ModelDefaults<String, Payment> {
     @Setter
     @NonNull
     @Column(name = "paymentDate", nullable = false, columnDefinition = "DATE")
-    private Date paymentDate;
+    private LocalDate paymentDate;
 
     @Getter
     @Setter
