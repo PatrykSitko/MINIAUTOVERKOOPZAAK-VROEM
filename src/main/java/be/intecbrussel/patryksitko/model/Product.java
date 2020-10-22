@@ -2,7 +2,11 @@ package be.intecbrussel.patryksitko.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,8 +35,9 @@ public class Product implements ModelDefaults<String, Product> {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "productLine", nullable = false, length = 50, columnDefinition = "VARCHAR")
-    private String productLine;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productline", nullable = false, columnDefinition = "VARCHAR", foreignKey = @ForeignKey(name = "productline"))
+    private Productline productline;
 
     @Getter
     @Setter
@@ -79,7 +84,7 @@ public class Product implements ModelDefaults<String, Product> {
     public void update(Product updated) {
         this.setProductCode(updated.getProductCode());
         this.setProductName(updated.getProductName());
-        this.setProductLine(updated.getProductLine());
+        this.setProductline(updated.getProductline());
         this.setProductScale(updated.getProductScale());
         this.setProductVendor(updated.getProductVendor());
         this.setProductDescription(updated.getProductDescription());
@@ -96,10 +101,10 @@ public class Product implements ModelDefaults<String, Product> {
         result = prime * result + ((buyPrice == null) ? 0 : buyPrice.hashCode());
         result = prime * result + ((productCode == null) ? 0 : productCode.hashCode());
         result = prime * result + ((productDescription == null) ? 0 : productDescription.hashCode());
-        result = prime * result + ((productLine == null) ? 0 : productLine.hashCode());
         result = prime * result + ((productName == null) ? 0 : productName.hashCode());
         result = prime * result + ((productScale == null) ? 0 : productScale.hashCode());
         result = prime * result + ((productVendor == null) ? 0 : productVendor.hashCode());
+        result = prime * result + ((productline == null) ? 0 : productline.hashCode());
         result = prime * result + ((quantityInStock == null) ? 0 : quantityInStock.hashCode());
         return result;
     }
@@ -133,11 +138,6 @@ public class Product implements ModelDefaults<String, Product> {
                 return false;
         } else if (!productDescription.equals(other.productDescription))
             return false;
-        if (productLine == null) {
-            if (other.productLine != null)
-                return false;
-        } else if (!productLine.equals(other.productLine))
-            return false;
         if (productName == null) {
             if (other.productName != null)
                 return false;
@@ -153,6 +153,11 @@ public class Product implements ModelDefaults<String, Product> {
                 return false;
         } else if (!productVendor.equals(other.productVendor))
             return false;
+        if (productline == null) {
+            if (other.productline != null)
+                return false;
+        } else if (!productline.equals(other.productline))
+            return false;
         if (quantityInStock == null) {
             if (other.quantityInStock != null)
                 return false;
@@ -163,10 +168,9 @@ public class Product implements ModelDefaults<String, Product> {
 
     @Override
     public String toString() {
-        return "Products [MSRP=" + MSRP + ", buyPrice=" + buyPrice + ", productCode=" + productCode
-                + ", productDescription=" + productDescription + ", productLine=" + productLine + ", productName="
-                + productName + ", productScale=" + productScale + ", productVendor=" + productVendor
+        return "Product [MSRP=" + MSRP + ", buyPrice=" + buyPrice + ", productCode=" + productCode
+                + ", productDescription=" + productDescription + ", productName=" + productName + ", productScale="
+                + productScale + ", productVendor=" + productVendor + ", productline=" + productline
                 + ", quantityInStock=" + quantityInStock + "]";
     }
-
 }
