@@ -4,7 +4,11 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,8 +59,9 @@ public class Order implements ModelDefaults<Integer, Order> {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "customerNumber", nullable = false, columnDefinition = "INT")
-    private Integer customerNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customerNumber", nullable = false, columnDefinition = "INT", foreignKey = @ForeignKey(name = "customerNumber"))
+    private Customer customer;
 
     @Override
     public Integer getPrimaryKey() {
@@ -70,7 +75,7 @@ public class Order implements ModelDefaults<Integer, Order> {
         this.setShippedDate(updated.getShippedDate());
         this.setStatus(updated.getStatus());
         this.setComments(updated.getComments());
-        this.setCustomerNumber(updated.getCustomerNumber());
+        this.setCustomer(updated.getCustomer());
     }
 
     @Override
@@ -78,7 +83,7 @@ public class Order implements ModelDefaults<Integer, Order> {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-        result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
+        result = prime * result + ((customer == null) ? 0 : customer.hashCode());
         result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
         result = prime * result + ((orderNumber == null) ? 0 : orderNumber.hashCode());
         result = prime * result + ((requiredDate == null) ? 0 : requiredDate.hashCode());
@@ -101,10 +106,10 @@ public class Order implements ModelDefaults<Integer, Order> {
                 return false;
         } else if (!comments.equals(other.comments))
             return false;
-        if (customerNumber == null) {
-            if (other.customerNumber != null)
+        if (customer == null) {
+            if (other.customer != null)
                 return false;
-        } else if (!customerNumber.equals(other.customerNumber))
+        } else if (!customer.equals(other.customer))
             return false;
         if (orderDate == null) {
             if (other.orderDate != null)
@@ -136,8 +141,9 @@ public class Order implements ModelDefaults<Integer, Order> {
 
     @Override
     public String toString() {
-        return "Orders [comments=" + comments + ", customerNumber=" + customerNumber + ", orderDate=" + orderDate
-                + ", orderNumber=" + orderNumber + ", requiredDate=" + requiredDate + ", shippedDate=" + shippedDate
-                + ", status=" + status + "]";
+        return "Order [comments=" + comments + ", customer=" + customer + ", orderDate=" + orderDate + ", orderNumber="
+                + orderNumber + ", requiredDate=" + requiredDate + ", shippedDate=" + shippedDate + ", status=" + status
+                + "]";
     }
+
 }
