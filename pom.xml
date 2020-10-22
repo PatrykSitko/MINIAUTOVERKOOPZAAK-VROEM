@@ -52,6 +52,7 @@
 
   <build>
     <plugins>
+      <!--This plugin has been added to force loading on lazy components-->
       <plugin>
         <groupId>org.hibernate.orm.tooling</groupId>
         <artifactId>hibernate-enhance-maven-plugin</artifactId>
