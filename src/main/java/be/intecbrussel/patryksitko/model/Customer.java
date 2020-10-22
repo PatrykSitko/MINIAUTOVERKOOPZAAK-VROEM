@@ -2,7 +2,11 @@ package be.intecbrussel.patryksitko.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -81,8 +85,9 @@ public class Customer implements ModelDefaults<Integer, Customer> {
 
     @Getter
     @Setter
-    @Column(name = "salesRepEmployeeNumber", nullable = true, columnDefinition = "INT")
-    private Integer salesRepEmployeeNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "salesRepEmployeeNumber", nullable = true, columnDefinition = "INT", foreignKey = @ForeignKey(name = "employeeNumber"))
+    private Employee salesRepEmployee;
 
     @Getter
     @Setter
@@ -107,7 +112,7 @@ public class Customer implements ModelDefaults<Integer, Customer> {
         this.setState(updated.getState());
         this.setPostalCode(updated.getPostalCode());
         this.setCountry(updated.getCountry());
-        this.setSalesRepEmployeeNumber(updated.getSalesRepEmployeeNumber());
+        this.setSalesRepEmployee(updated.getSalesRepEmployee());
         this.setCreditLimit(updated.getCreditLimit());
     }
 
@@ -126,7 +131,7 @@ public class Customer implements ModelDefaults<Integer, Customer> {
         result = prime * result + ((customerNumber == null) ? 0 : customerNumber.hashCode());
         result = prime * result + ((phone == null) ? 0 : phone.hashCode());
         result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
-        result = prime * result + ((salesRepEmployeeNumber == null) ? 0 : salesRepEmployeeNumber.hashCode());
+        result = prime * result + ((salesRepEmployee == null) ? 0 : salesRepEmployee.hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
         return result;
     }
@@ -195,10 +200,10 @@ public class Customer implements ModelDefaults<Integer, Customer> {
                 return false;
         } else if (!postalCode.equals(other.postalCode))
             return false;
-        if (salesRepEmployeeNumber == null) {
-            if (other.salesRepEmployeeNumber != null)
+        if (salesRepEmployee == null) {
+            if (other.salesRepEmployee != null)
                 return false;
-        } else if (!salesRepEmployeeNumber.equals(other.salesRepEmployeeNumber))
+        } else if (!salesRepEmployee.equals(other.salesRepEmployee))
             return false;
         if (state == null) {
             if (other.state != null)
@@ -213,7 +218,7 @@ public class Customer implements ModelDefaults<Integer, Customer> {
         return "Customer [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city
                 + ", contactFirstName=" + contactFirstName + ", contactLastName=" + contactLastName + ", country="
                 + country + ", creditLimit=" + creditLimit + ", customerName=" + customerName + ", customerNumber="
-                + customerNumber + ", phone=" + phone + ", postalCode=" + postalCode + ", salesRepEmployeeNumber="
-                + salesRepEmployeeNumber + ", state=" + state + "]";
+                + customerNumber + ", phone=" + phone + ", postalCode=" + postalCode + ", salesRepEmployee="
+                + salesRepEmployee + ", state=" + state + "]";
     }
 }
